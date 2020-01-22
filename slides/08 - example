@@ -1,0 +1,92 @@
+echo -e """
+${bold}Examples of Rule 3${plain}
+"""
+
+if [[ $STEP == 0 ]]; then
+    echo "Say we want to design a program to regularly download YouTube videos we've watched, so we can watch them later when the Internet isn't working." | fold -s
+
+    T1="1. Get browsing history."
+    T2="2. Find youtube videos."
+    T3="3. Pass youtube videos to 'youtube-dl' or similar."
+
+    echo """
+    Break down task into 3 separate problems:
+    $T1
+    $T2
+    $T3
+    """
+elif [[ $STEP == 1 ]]; then
+    echo "$T1"
+
+    bash
+    echo
+    echo '$ cp <path_to_history> History' | zbat -l bash
+    echo '$ sqlite3 History "SELECT url FROM urls"' | zbat -l bash
+    echo """\
+https://news.ycombinator.com/articles-I-read-when-procrastinating
+https://youtube.com/watch?v=clickbait-that-I-wish-I-could-resist
+https://news.ycombinator.com/articles-I-read-when-really-bored
+https://youtube.com/watch?v=some-clip-from-some-movie-I-kinda-like
+https://reddit.com/r/birdswitharms
+...
+"""
+elif [[ $STEP -ge 2 ]] && [[ $STEP -lt 5 ]]; then
+
+    echo "$T2"
+    echo
+    echo '$ my_script_for_urls | ... what now?' | zbat -l bash
+    if [[ $STEP -ge 3 ]]; then
+        echo
+        echo -e "${drama}(e)grep${plain} to the rescue!"
+        echo
+        echo '$ my_script_for_urls | grep -E -o "watch\?v=.{11}"' | zbat -l bash
+        echo
+        echo -e "${drama}-E${plain} : extended"
+        echo -e "${drama}-o${plain} : only return the exact text that matches, not the full line"
+        echo
+
+        if [[ $STEP == 4 ]]; then
+            echo """\
+watch?v=AAAAAAAAAAA
+...
+watch?v=XXXXXXXXXXY
+watch?v=XXXXXXXXXXZ
+watch?v=ZXXXXXXXXXZ
+            """
+        fi
+    fi
+elif [[ $STEP -ge 5 ]] && [[ $STEP -lt 8 ]]; then
+    echo "$T3"
+    echo
+    if [[ $STEP == 6 ]]; then
+        echo "Use the old"
+        echo """\
+$ while read line; do
+$     <command>
+$ done""" | zbat -l bash
+        echo "trick!"
+    elif [[ $STEP == 7 ]]; then
+        echo "Substitute in youtube-dl:"
+        echo """\
+$ while read line; do
+$     youtube-dl "https://youtube.com/$line"
+$ done""" | zbat -l bash
+        echo
+        echo "Tada!"
+    fi
+elif [[ $STEP -ge 8 ]] && [[ $STEP -lt 11 ]]; then
+    if [[ $STEP == 8 ]]; then
+        echo -e "${bold}Finally, we tie it all together${plain}"
+    elif [[ $STEP -ge 9 ]]; then
+        echo -e "${bold}Finally, we pipe it all together${plain}"
+        if [[ $STEP == 10 ]]; then
+            echo '''
+$ cp <path_to_history> History
+$ sqlite3 History "SELECT url FROM urls" |
+    grep -E -o "watch\?v=.{11}" |
+    while read line; do
+        youtube-dl "https://youtube.com/$line"
+    done''' | zbat -l bash
+        fi
+    fi
+fi

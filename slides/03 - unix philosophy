@@ -1,0 +1,14 @@
+echo -e """
+\033[01mWhat is the Unix Philosophy?\033[00m
+"""
+
+curl --silent 'https://en.wikipedia.org/w/api.php?action=query&prop=extracts&exsentences=2&exlimit=1&titles=Unix_philosophy&explaintext=1&format=json' |
+    jq -r '.query.pages | to_entries | .[0].value.extract' |
+    fold -s
+
+echo
+echo -e "${italics}Would you like to see a photo of Ken Thompson and Dennis Ritchie's magnificent beards and wide, happy smiles?${plain} [Y/n]" | fold -s
+
+function slidecase {
+    feh 'https://upload.wikimedia.org/wikipedia/commons/1/1b/Ken_Thompson_and_Dennis_Ritchie--1973.jpg'
+}

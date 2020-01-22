@@ -1,0 +1,13 @@
+echo -e """
+${bold}Rule 3: Using Text Streams.${plain}
+"""
+
+echo "What is the fundamental data structure of programming?"
+echo
+
+echo "(+ 0 1)       ;; Tuples!" | zbat -l lisp
+echo "\x -> x x     -- Functions!" | zbat -l hs
+echo "&*point       // Pointers!" | zbat -l c
+echo "class BeanFac // Objects!" | zbat -l java
+echo "def run_ml(): #  Whatever SciKit tells me is appropriate!" | zbat -l py
+echo "echo hey      #  Strings!" | zbat -l bash

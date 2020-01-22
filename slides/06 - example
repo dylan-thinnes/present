@@ -1,0 +1,18 @@
+echo -e """
+${bold}Examples of Rule 2:${plain}
+${bold}Piping Programs Together${plain}
+"""
+
+command="echo 'This is a fox.' | grep '[aiueo]' --color=always"
+
+simulate "# Here, we use the pipe:"
+simulate "$command"
+echo
+
+echo "# send the output of the first command..." | zbat -l bash
+echo "$command" | grep -E '^[^|]*' --color=always
+echo
+
+echo "# to the input of the second command..." | zbat -l bash
+echo "$command" | grep -E '[^|]*$' --color=always
+echo

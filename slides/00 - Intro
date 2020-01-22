@@ -1,0 +1,7 @@
+#!/bin/bash
+echo
+echo "A Gentle Introduction to Shell Scripting" | rainbow
+echo "Dylan Thinnes" | rainbow
+echo
+
+bat -l bash --color always --theme='GitHub' "$SLIDE"

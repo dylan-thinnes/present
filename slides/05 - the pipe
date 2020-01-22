@@ -1,0 +1,20 @@
+echo -e """
+${bold}Rule 2: Ceci est bien une pipe.${plain}
+"""
+
+echo -e """\
+The piece of bash syntax called the pipe, written '|', is a wonderful but
+powerful invention (though it's really just function composition).
+
+                              -----------
+            INPUT (STDIN) --> | PROGRAM | --> OUTPUT (STDOUT)
+                              -----------
+
+Using the pipe, we can ${drama}glue${plain} the output of one program to the 
+input of another.
+
+                      ------------     ------------
+    INPUT (STDIN) --> | PROGRAM1 | --> | PROGRAM2 | --> OUTPUT (STDOUT)
+                      ------------     ------------
+
+(This is a technical simplification, but we will gloss over that for now.)"""

@@ -1,0 +1,13 @@
+echo -e """
+${bold}Who Am I?${plain}
+"""
+
+(
+shuf -e haskell web 'silly scripts' esolangs maths |
+    jq -nR '[inputs | select(length > 0)]'
+echo '''
+{
+    "bio": { "first_name": "Dylan", "last_name": "Thinnes", "born": "1999-03-02", "website": "https://dylant.org" }
+}
+'''
+) | jq -s '.[1] + { "interests": .[0] }'

@@ -1,0 +1,8 @@
+echo -e """
+${bold}Itinerary
+
+- What is the Unix Philosophy?
+- Tenet 1 - "One thing"
+- Tenet 2 - "Interop"
+- Tenet 3 - "String streams"
+"""

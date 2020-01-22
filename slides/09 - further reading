@@ -1,0 +1,10 @@
+echo -e """
+${bold}Further Reading${plain}
+"""
+
+echo "Bash Cheatsheet - Devhints | https://devhints.io/bash"
+echo "LearnXInYMinutes Bash      | https://learnxinyminutes.com/docs/bash/"
+echo "Bash Reference Manual      | https://www.gnu.org/software/bash/manual/bash.pdf"
+
+echo
+echo -e "${drama}Thanks a lot, and good luck!${plain}"

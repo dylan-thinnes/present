@@ -1,0 +1,24 @@
+echo -e """
+${bold}Examples of Rule 1:${plain}
+${bold}A Few 'One Thing Well' Programs${plain}
+"""
+
+if [[ $STEP != 0 ]]; then
+    simulate "# echo just prints its arguments"
+    simulate 'echo "Hello!"'
+    echo
+    simulate "# cut will get an nth word from all of its arguments"
+    simulate "# in our case, 3"
+    simulate "cut -d' ' -f3"
+    echo
+    simulate "# grep matches any text that matches the regex"
+    simulate "grep '[aieou]' --color=always"
+    echo
+    simulate "# commands are modified w/ arguments starting w/ '-'"
+    simulate "# grep can ignore case:"
+    simulate "grep '[aieou]' --color=always --ignore-case"
+    echo
+    simulate "# wc (for 'word count') can count lines (-l), words (-w), and characters (-c)"
+    simulate "wc -w"
+    simulate "wc -c"
+fi

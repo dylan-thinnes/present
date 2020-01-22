@@ -1,0 +1,20 @@
+echo -e """
+${bold}Rule 3: Using Text Streams.${plain}
+"""
+
+echo -e """\
+The case for strings:
+
+- $italics(Most)$plain everyone understands them.
+- $italics(Mostly)$plain easy to manipulate.
+- Transformations all from ${drama}string to string${plain}
+
+The case against:
+
+- Too open-ended
+- Mixes whitespace ${drama}for control${plain} & whitespace ${drama}for writing${plain}
+- Syntactical transformations can be tough
+
+${bold}FOR MORE ON STRINGLY-TYPED PROGRAMMING: www.tcl.tk${plain}
+""" | head -n$((STEP+2))
+

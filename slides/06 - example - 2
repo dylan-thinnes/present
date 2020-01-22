@@ -1,0 +1,72 @@
+echo -e """
+${bold}Advanced Example of Rule 2${plain}
+"""
+
+histogram1='''../my_program 3 4 |
+    while read line; do
+        echo "$line" | wc -w
+    done'''
+
+histogram2='''../my_program 3 4 |
+    while read line; do
+        echo "$line" | wc -w
+    done |
+    sort -g'''
+
+histogram3='''../my_program 3 4 |
+    while read line; do
+        echo "$line" | wc -w
+    done |
+    sort -g | uniq -c'''
+
+if [[ $STEP == 0 ]]; then
+    echo -e "Say we have program ${drama}'../my_program'${plain}, taking 2 numbers."
+
+elif [[ $STEP == 1 ]]; then
+    echo -e "Say we have program ${drama}'../my_program'${plain}, taking 2 numbers."
+
+    # echo -en "${drama}A:${plain} "; read A
+    # echo -en "${drama}B:${plain} "; read B
+    echo
+    # simulate "../my_program $A $B"
+    simulate "../my_program 3 4"
+    echo
+
+elif [[ $STEP == 2 ]]; then
+
+    echo -e """
+Now, we want to get a histogram of line lengths - how many lines are there with 3 numbers, how many with 4, how many 5, etc.
+    """ | fold -s
+    (
+        echo "\$ $histogram1"
+        ../my_program 3 4 > ../tmp-a
+        bash -c "$histogram1" > ../tmp-b
+        pr -m -t -S"# " ../tmp-b ../tmp-a
+    ) | zbat -l bash
+    echo
+
+elif [[ $STEP == 3 ]]; then
+
+    echo
+    echo -e "${bold}How to read the histogram: three parts${plain}"
+    echo -e "\033[31;01m$(echo "$histogram1" | grep my_program)\033[30;0m"
+    echo -e "\033[32;01m$(echo "$histogram1" | grep read)\033[30;0m"
+    echo -e "\033[34;01m$(echo "$histogram1" | grep wc)\033[30;0m"
+    echo -e "\033[32;01m$(echo "$histogram1" | grep done)\033[30;0m"
+    echo
+
+    echo -e '\033[31;01mRed   :\033[30;0m Run my_program, pipe its output to a the input of the while loop'
+    echo -e """\
+\033[32;01mGreen :\033[30;0m Read lines as long as possible, store that in variable $bold\$line$plain
+        Run \033[34;01mBlue\033[30;0m for every line"""
+    echo -e '\033[34;01mBlue  :\033[30;0m Echo that line to "wc -w", which counts words'
+
+elif [[ $STEP -ge 4 ]]; then
+    echo """\
+Now, we have to count the frequencies of each word count. We can do this in just two pipes:
+1. Sort the rows numerically using 'sort -g'
+2. Merge identical lines and count their occurences using 'uniq -c'
+    """ | fold -s
+
+    simulate "$histogram3"
+fi
