@@ -1,0 +1,102 @@
+#!/bin/bash
+
+DIR=$1
+cd $DIR || (echo "That is not a valid directory!" && exit 1)
+NOQ=$2
+
+INDEX=0
+STEP=0
+echo -en "\033[2J\033[H"
+
+bold="\033[01m"
+red="\033[31m"
+italics="\033[03m"
+drama="$bold$red"
+plain="\033[30;01m\033[00m"
+
+max () {
+    ls | wc -l
+}
+
+zbat () {
+    bat --style=plain --color=always --theme='GitHub' "$@"
+}
+
+simulate () {
+    echo "\$ $1" | zbat -l bash --style=plain --color=always
+    bash -c "$1"
+}
+
+print_help () {
+echo """
+HELP: (press q to exit)
+(Keys other than this one may be handled by the current slide)
+j : next slide
+k : prev slide
+l : next step within slide
+h : prev step within slide
+q : quit the slideshow `[[ $NOQ == "" ]] || echo -n '(disabled)'`
+r : reload the slide at the current step
+R : reload the slide without the current step
+e : edit this slide's source
+m : show this slide in a pager
+s : start a bash shell
+? : print this help
+"""
+}
+less_help () {
+    print_help | less
+}
+
+echo """
+Welcome to 'present', the basic in-shell slideshow system.
+The keybindings are listed below. You can view them again by pressing '?'.
+Please press <enter> to start your slideshow, which has `max` slides.
+""" | fold -s
+print_help
+read -n 1
+
+while true; do
+    if [[ $STEP -lt 0 ]]; then
+        STEP=0
+    fi
+
+    if [[ $INDEX -lt 0 ]]; then
+        INDEX=0
+    elif [[ $INDEX -ge $(max) ]]; then
+        INDEX=$(($(max)-1))
+    fi
+
+    SLIDE=`ls | sed "$((INDEX+1))q;d"`
+    echo -en "\033[2J\033[H"
+    # echo "Rendering $SLIDE..."
+    # echo Slide $((INDEX+1)) / $(max) "($SLIDE)"
+    if [[ $LESSMODE == "1" ]]; then
+        source "$SLIDE" | less -R
+    else
+        source "$SLIDE"
+    fi
+
+    read -n 1 key
+
+    LESSMODE="0"
+    case "$key" in
+        'j') INDEX=$((INDEX+1));STEP=0;;
+        'k') INDEX=$((INDEX-1));STEP=0;;
+        'l') STEP=$((STEP+1));;
+        'h') STEP=$((STEP-1));;
+        'g') echo -n "oto: ";read -r INDEX;;
+        'R') echo "reload";STEP=0;;
+        'r') echo "reload";;
+        'e') vim "$SLIDE" ;;
+        'm') LESSMODE="1" ;;
+        's') bash ;;
+        'q') [[ $NOQ == "" ]] && break;;
+        '?') less_help;;
+        *) slidecase $key
+    esac
+
+    source ../clear-slide
+done
+
+echo -en "\033[2J\033[H"
